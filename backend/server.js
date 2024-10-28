@@ -11,7 +11,7 @@ dotenv.config();
 
 app.use(express.json())
 
-app.use("api/products", productRoutes)
+app.use("/api/products", productRoutes)
 
 app.listen(Port, () =>{
     connectDB();
