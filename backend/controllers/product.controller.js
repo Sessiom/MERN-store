@@ -41,7 +41,7 @@ export const editProduct = async (req,res) =>{
     const product = req.body;
 
     if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(NOT_FOUND).json({ success: false, message: "Product not found"})
+        return res.status(NOT_FOUND).json({ success: false, message: "Invalid product id"})
     }
 
     try {
@@ -54,16 +54,17 @@ export const editProduct = async (req,res) =>{
 
 export const deleteProduct = async (req, res) => {
     const {id} = req.params;
+    
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(NOT_FOUND).json({ success: false, message: "Invalid product id"})
+    }
+    
     try{
-        const deletedProduct = await Product.findByIdAndDelete(id);
-        if (!deletedProduct) {
-            return res.status(NOT_FOUND).json({ success: false, message: "Product not found" });
-        }
-
+        await Product.findByIdAndDelete(id);
         res.status(SUCCESS).json({ success: true, message: "Product deleted"});
         
     } catch (error) {
         console.error("Error in deleting product:", error.message);
-        res.status(NOT_FOUND).json({ status: false, message: "Product not found"});
+        res.status(INTERNAL_SERVER_ERROR).json({ status: false, message: "Internal server error"});
     }
 }

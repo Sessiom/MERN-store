@@ -5,7 +5,6 @@ import { connectDB } from './config/db.js'
 import productRoutes from "./routes/product.route.js"
 
 const app = express();
-const Port = 5000
 
 dotenv.config();
 
@@ -13,9 +12,9 @@ app.use(express.json())
 
 app.use("/api/products", productRoutes)
 
-app.listen(Port, () =>{
+app.listen(process.env.PORT, () =>{
     connectDB();
-    console.log(`Server started at http://localhost:${Port}`);
+    console.log(`Server started at http://localhost:${process.env.PORT}`);
 })
 
 
