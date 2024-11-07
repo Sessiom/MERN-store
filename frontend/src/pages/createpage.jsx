@@ -10,13 +10,29 @@ const CreatePage = () => {
 		image: "",
 	});
 
+	const toast = useToast()
 	const {createProduct}=useProductStore()
 
 	const handleAddProduct = async () => {
-		const {success,message} = await createProduct(newProduct)
-		console.log("Success:",success)
-		console.log("Success:",message)
-
+		const {success,message} = await createProduct(newProduct);
+		if(!success) {
+			toast({
+				title: "Error",
+				description: message,
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+			})
+		} else {
+			toast({
+				title: "Success",
+				description: message,
+				status: "success",
+				duration: 3000,
+				isClosable: true,
+			})
+		}
+		setNewProduct({ name:"", price: "", image:""});
 	};
 
 
